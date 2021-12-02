@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <!-- css link -->
+    <link rel="stylesheet" href="./留言板-1.css">
+</head>
+<body>
+<section class="hero-section ">
+   <!-- 
+            1. action 要發送請求的對象
+            2. method 請求的方式
+            3. input如果為必填項目，則增加required屬性
+            4. label的for要對應input的id
+            5. input要設定name
+            6. button在form表單內，預設為送出表單
+            7. 內文類型使用textarea
+        -->
+  <form action="https://api-lesson.dev-hub.io/news" method="post">
+    <div class="form-group">
+      <label for="title">標題:</label>
+      <input id="title" type="text" name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="date">日期:</label>
+      <input id="date" type="date" name="date" required>
+    </div>
+    <div class="form-group">
+      <label for="image-url">圖片:</label>
+      <input id="image-url" type="text" name="image_url" required>
+  </div>
+  <div class="form-group">
+      <label for="href">連結:</label>
+      <input id="href" type="text" name="href">
+  </div>
+  <div class="form-group">
+      <label for="content">內文:</label>
+      <textarea name="content" id="content" cols="30" rows="10" required></textarea>
+  </div>
+  <button type="submit">送出</button>
+  </form>
+
+  <div class="card-grid container">
+    <a class="card" href="#">
+      <div class="card__background img" style="background-image: url()"></div>
+      <div class="card__content">
+        <h1 class="tittle">tittle</h1>
+        <h3 class="card__heading content">Example Card Heading</h3>
+        <p class="card__category date">Category</p>
+      </div>
+    </a>
+  <div>
+  
+</section>
+
+
+
+<script>
+    const containerElement = document.querySelector('.container');
+    let cards = ''; 
+    let url = 'https://api-lesson.dev-hub.io/news';
+
+    // 發送GET請求
+    fetch(url)
+    .then(function (response){
+        return response.json();
+    })
+    .then(function (data){
+      console.log(data);
+        for(let i = 0 ; i < 650 ; i++){
+            cards += `      
+            <a class="card" href="#">
+              <div class="card__background img" style="background-image: url(${data[i]['image_url']})"></div>
+              <div class="card__content">
+                <h1 class="tittle">${data[i]['title']}</h1>
+                <h3 class="card__heading content">${data[i]['content']}</h3>
+                <p class="card__category date">${data[i]['date']}</p>
+              </div>
+            </a>`;
+        }
+        containerElement.innerHTML = cards;
+      });
+      // 錯誤資料
+      // .catch(function(err) {
+      //   console.log('錯誤',err);
+      // })
+</script>
+</body>
+</html>
